@@ -1,0 +1,15 @@
+{
+    "name": "antho/www.red_social.com",
+    "autoload": {
+        "psr-4": {
+            "Antho\\WwwRedSocialCom\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Scott Ramirez",
+            "email": "anthonyscottramirez@gmail.com"
+        }
+    ],
+    "require": {}
+}

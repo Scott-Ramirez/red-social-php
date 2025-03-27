@@ -1,6 +1,8 @@
 <?php
-require_once __DIR__ . '/../model/User.php';
-require_once __DIR__ . '/../config/database.php';
+session_start();  // ✅ Iniciar sesión antes de cualquier salida
+
+require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../../config/database.php';
 
 class UserController
 {
@@ -26,9 +28,7 @@ class UserController
         }
 
         // ✅ Si no se subió una imagen, asignar un avatar por defecto
-        if (!$profilePicture) {
-            $profilePicture = 'default_avatar.png';
-        }
+        $profilePicture = $profilePicture ?: 'default_avatar.png';
 
         return $this->userModel->register($fullName, $username, $email, $password, $birthDate, $phone, $gender, $location, $bio, $profilePicture, $role, $isVerified);
     }
@@ -40,7 +40,6 @@ class UserController
 
         if ($result['success']) {
             // ✅ Guardar datos en la sesión
-            session_start();
             $_SESSION['user_id'] = $result['user']['id'];
             $_SESSION['username'] = $result['user']['username'];
             $_SESSION['email'] = $result['user']['email'];
@@ -48,6 +47,13 @@ class UserController
         }
 
         return $result;
+    }
+
+    // 📌 Cerrar sesión
+    public function logout()
+    {
+        session_destroy();  // ✅ Destruir la sesión
+        return ['success' => true, 'message' => 'Sesión cerrada correctamente.'];
     }
 
     // 📌 Actualizar perfil
